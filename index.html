@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup and Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+      background: #f9f9f9;
+    }
+
+    input:focus {
+      border-color: #ff6f61;
+      box-shadow: 0 0 8px rgba(255, 111, 97, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #ff6f61;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background: #ff4a3d;
+    }
+
+    .switch {
+      margin-top: 15px;
+      font-size: 0.9rem;
+    }
+
+    .switch a {
+      color: #ff6f61;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .switch a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        padding: 20px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card" id="signupForm">
+    <h2>Sign Up</h2>
+    <div class="form-group">
+      <label for="signupUsername">Username</label>
+      <input type="text" id="signupUsername" placeholder="Enter your username" required>
+    </div>
+    <div class="form-group">
+      <label for="signupPassword">Password</label>
+      <input type="password" id="signupPassword" placeholder="Enter your password" required>
+    </div>
+    <button onclick="signup()">Create Account</button>
+    <div class="switch">
+      <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+    </div>
+  </div>
+
+  <div class="card" id="loginForm" style="display: none;">
+    <h2>Login</h2>
+    <div class="form-group">
+      <label for="loginUsername">Username</label>
+      <input type="text" id="loginUsername" placeholder="Enter your username" required>
+    </div>
+    <div class="form-group">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password" required>
+    </div>
+    <button onclick="login()">Login</button>
+    <div class="switch">
+      <p>Don’t have an account? <a href="#" onclick="showSignup()">Sign up here</a></p>
+    </div>
+  </div>
+
+  <script>
+    function showSignup() {
+      document.getElementById('signupForm').style.display = 'block';
+      document.getElementById('loginForm').style.display = 'none';
+    }
+
+    function showLogin() {
+      document.getElementById('signupForm').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+    }
+
+    function signup() {
+      const username = document.getElementById('signupUsername').value;
+      const password = document.getElementById('signupPassword').value;
+
+      if (username === '' || password === '') {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      const user = {
+        username: username,
+        password: password
+      };
+
+      localStorage.setItem('user', JSON.stringify(user));
+      alert('Signup successful!');
+
+      document.getElementById('signupUsername').value = '';
+      document.getElementById('signupPassword').value = '';
+
+      showLogin();
+    }
+
+    function login() {
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+
+      if (username === '' || password === '') {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+
+      if (storedUser && storedUser.username === username && storedUser.password === password) {
+        alert('Login successful!');
+        window.location.href = "home.html";
+      } else {
+        alert('Invalid username or password.');
+      }
+
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+    }
+  </script>
+</body>
+</html>
